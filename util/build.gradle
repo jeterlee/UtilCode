@@ -1,23 +1,36 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+
+group = 'com.github.Jeterlee'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    compileSdkVersion setup.compileSdkVersion
+    buildToolsVersion setup.buildToolsVersion
 
     defaultConfig {
         minSdkVersion 19
-        targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+        targetSdkVersion setup.targetSdkVersion
+        consumerProguardFiles 'consumer-proguard-rules.pro'
+        versionCode 100
+        versionName "1.0.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
+
     buildTypes {
         release {
             minifyEnabled false
+            // Zipalign优化
+            zipAlignEnabled true
+            // 移除无用的resource文件
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    lintOptions {
+        abortOnError false
     }
 }
 
@@ -26,6 +39,22 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
     testCompile 'junit:junit:4.12'
+
+    // <editor-fold desc="公共依赖包">
+    compile rootProject.ext.dependencies["appcompat-v7"]
+    compile rootProject.ext.dependencies["design"]
+    compile rootProject.ext.dependencies["findbugs"]
+    // </editor-fold>
+
+    // <editor-fold desc="log依赖包">
+    // 对Log日志项目的改进
+    // 注意在project的build.gradle中添加以下代码: maven { url "https://jitpack.io" }
+    compile rootProject.ext.dependencies["timber"]
+    compile rootProject.ext.dependencies["logger"]
+    // </editor-fold>
+
+    // <editor-fold desc="Gson">
+    compile rootProject.ext.dependencies["gson"]
+    // </editor-fold>
 }
