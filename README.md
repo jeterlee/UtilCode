@@ -28,7 +28,7 @@ Step 2. Add the dependency
 
 
 # License
-
+```
 Copyright (c) 2017, The Jeterlee authors 
 
    Licensed under the Apache License, Version 2.0 (the "License");
@@ -42,3 +42,4 @@ Copyright (c) 2017, The Jeterlee authors
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
+```
