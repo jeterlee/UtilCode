@@ -1,4 +1,6 @@
-## UtilCode
+# UtilCode
+
+[AndroidUtilCode](https://github.com/Blankj/AndroidUtilCode)
 
 Step 1. Add the JitPack repository to your build file
 
@@ -20,7 +22,12 @@ Step 2. Add the dependency
 	        compile 'com.github.Jeterlee:UtilCode:v1.0.0'
 	}
 ```
-## License
+
+## 参考资料
+
+
+
+# License
 
 Copyright (c) 2017, The Jeterlee authors 
 
