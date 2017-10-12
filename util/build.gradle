@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'maven'
 
 group = 'com.github.Jeterlee'
 
@@ -57,4 +58,17 @@ dependencies {
     // <editor-fold desc="Gson">
     compile rootProject.ext.dependencies["gson"]
     // </editor-fold>
+}
+
+uploadArchives{
+    repositories.mavenDeployer {
+        // maven存放路径
+        def mavenRepositoryPath = file(getProperty('aar.mavenRepositoryPath'))
+        repository(url: "file://${mavenRepositoryPath.absolutePath}")
+        pom.project{
+            groupId "cn.jeterlee"
+            artifactId "util"
+            version "1.0.0"
+        }
+    }
 }
