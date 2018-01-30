@@ -1,57 +1,21 @@
-# UtilCode
-项目说明：Android常用的工具类。
+## UtilCode
+项目说明：Android & Java Common Tools Class （常用的工具类，并且`Java`和`Android`分离，方便使用，持续更新。。。）
+
 
 ## 依赖配置
-- 方法一：
 
-	Step 1. Add the JitPack repository to your build file
 
-	Add it in your root build.gradle at the end of repositories:
-	```
-	allprojects {
-		repositories {
-			...
-			maven { url 'https://jitpack.io' }
-		}
-	}
-	```
-
-	Step 2. Add the dependency
-	```
-	dependencies {
-		compile 'com.github.Jeterlee:UtilCode:v1.0.0'
-	}
-	```
-
-- 方法二：
-	
-	Step 1. Add the Maven repository to your build file
-	
-	Add it in your root build.gradle at the end of repositories:
-	```
-	allprojects {
-		repositories {
-			...
-			maven { url "https://raw.githubusercontent.com/Jeterlee/MavenRepository/master" }
-		}
-	}
-	```
-	
-	Step 2. Add the dependency
-	```
-	dependencies {
-		compile 'cn.jeterlee:util:1.0.0'
-	}
-	```
 
 ## 优秀项目推荐
 [**AndroidUtilCode**](https://github.com/Blankj/AndroidUtilCode)
 
+
 ## 参考资料
+
 
 # License
 ```
-Copyright (c) 2017, The Jeterlee authors 
+Copyright (c) 2017 - 2018, The Jeterlee authors 
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.

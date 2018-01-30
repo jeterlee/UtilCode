@@ -1,0 +1,119 @@
+apply plugin: 'com.novoda.bintray-release'// 上传JCenter仓库
+apply plugin: 'com.github.dcendents.android-maven'// 上传到JitPack仓库
+apply plugin: 'maven'// 上传到自定义的Maven仓库
+
+// load properties
+Properties properties = new Properties()
+File localPropertiesFile = project.file("local.properties");
+if (localPropertiesFile.exists()) {
+    properties.load(localPropertiesFile.newDataInputStream())
+}
+
+// project properties
+File projectPropertiesFile = project.file("project.properties");
+if (projectPropertiesFile.exists()) {
+    properties.load(projectPropertiesFile.newDataInputStream())
+}
+
+// read properties
+def bintrayUser = 'jeterlee'
+
+def projectGroupId = properties.getProperty("project.groupId")
+def projectArtifactId = properties.getProperty("project.artifactId")
+def projectVersionName = android.defaultConfig.versionName
+def projectDesc = properties.getProperty("project.desc")
+def projectWebSite = properties.getProperty("project.webSite")
+
+def javadocName = properties.getProperty("javadoc.name")
+
+// 以下为配置library注释在打包jar后保留
+// This generates sources.jar（打包源码jar）
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    failOnError false
+    source = android.sourceSets.main.java.sourceFiles
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    classpath += configurations.compile
+}
+
+// This generates javadoc.jar（打包文档jar）
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+// javadoc configuration
+javadoc {
+    options {
+        encoding "UTF-8"
+        charSet 'UTF-8'
+        author true
+        version projectVersionName
+        links "http://docs.oracle.com/javase/7/docs/api"
+        title javadocName
+    }
+}
+
+/**
+ * bintray configuration (use novoda)
+ *
+ *      // gradle-4.2.1 / 0.7.0 , 0.8.0
+ *      // gradle-4.1 / gradle 3.0.0 / 0.6.1
+ * - 1、classpath 'com.novoda:bintray-release:0.6.1'
+ * - 2、apply plugin: 'com.novoda.bintray-release'// 上传JCenter仓库
+ *
+ * 使用 publish 闭包来设置你的应用的信息（上传JCenter仓库）
+ *
+ * 使用命令：
+ * 1、gradlew clean build bintrayUpload -PbintrayUser={bintrayUser} -PbintrayKey={bintrayApi} -PdryRun=false
+ * 2、gradlew clean build bintrayUpload -PbintrayUser={bintrayUser} -PbintrayKey={bintrayApi} -PdryRun=false -x releaseAndroidJavadocs
+ */
+publish {
+    userOrg = bintrayUser// bintray用户名
+    groupId = projectGroupId// 用于上传的group id（就是library module的package）
+    artifactId = projectArtifactId// bintray创建的package
+    publishVersion = projectVersionName// 版本号（不能以“-SNAPSHOT”结尾）
+    desc = projectDesc// 在bintray中项目的简短描述
+    website = projectWebSite// 一个与该项目网址相关的URL字符串（一般为Github仓库）
+}
+
+/**
+ * user-defined maven repository (use github mavenRepository)
+ *
+ * - 1、apply plugin: 'maven'// 上传到自定义的Maven仓库
+ * - 2、定义 aar.mavenRepositoryPath 路径（在 gradle.properties 文件中定义）
+ *
+ * 使用 publish 闭包来设置你的应用的信息（上传到自定义的Maven仓库）
+ */
+uploadArchives {
+    repositories.mavenDeployer {
+        // maven存放路径
+        def mavenRepositoryPath = file(getProperty('aar.mavenRepositoryPath'))
+        repository(url: "file://${mavenRepositoryPath.absolutePath}")
+        pom.project {
+            groupId projectGroupId
+            artifactId projectArtifactId
+            version projectVersionName
+        }
+    }
+}
+
+/**
+ * jitpack configuration (use android-maven)
+ *
+ * - 1、classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
+ * - 2、apply plugin: 'com.github.dcendents.android-maven'// 上传到JitPack仓库
+ * - 3、定义 group
+ *
+ * 使用 JitPack 仓库
+ */
+group = projectGroupId
