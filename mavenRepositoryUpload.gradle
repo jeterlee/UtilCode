@@ -1,14 +1,9 @@
 /**
- * 以下开始是将Android Library上传到三种仓库
- * 1、JCenter仓库的相关配置（使用novoda插件）
- * 2、JitPack仓库的相关配置（使用android-maven插件）
- * 3、自定义的Maven仓库相关配置（use github mavenRepository）
+ * 以下开始是将Android Library上传到自定义的Maven仓库相关配置（use github mavenRepository）
  *
  * author : jeterlee
  */
 
-apply plugin: 'com.novoda.bintray-release'// 上传JCenter仓库
-apply plugin: 'com.github.dcendents.android-maven'// 上传到JitPack仓库
 apply plugin: 'maven'// 上传到自定义的Maven仓库
 
 // local properties（隐私内容，此文件不会上传）
@@ -26,11 +21,8 @@ if (projectPropertiesFile.exists()) {
 
 // read properties
 def user = properties.getProperty("bintray.user")
-def apiKey = properties.getProperty("bintray.apiKey")
-def unpublished = properties.getProperty("bintray.unpublished")
 def mavenRepositoryPath = properties.getProperty("aar.mavenRepositoryPath")
 
-def projectBintrayRepo = properties.getProperty("project.bintrayRepo")
 def projectGroupId = properties.getProperty("project.groupId")
 def projectArtifactId = properties.getProperty("project.artifactId")
 def projectVersionName = android.defaultConfig.versionName
@@ -80,38 +72,10 @@ task copyDoc(type: Copy) {
     into "docs"
 }
 
-// 上传到JCenter所需要的源码文件
+// 上传所需要的源码文件
 artifacts {
     archives javadocJar
     archives sourcesJar
-}
-
-/**
- * bintray configuration (use novoda)
- *
- *      // gradle-4.2.1 / 0.7.0 , 0.8.0
- *      // gradle-4.1 / gradle 3.0.0 / 0.6.1
- * - 1、classpath 'com.novoda:bintray-release:0.6.1'
- * - 2、apply plugin: 'com.novoda.bintray-release'// 上传JCenter仓库
- *
- * 使用 publish 闭包来设置你的应用的信息（上传JCenter仓库）
- *
- * 使用命令：
- * 1、gradlew clean build bintrayUpload
- * 2、gradlew clean build bintrayUpload -PbintrayUser={bintrayUser} -PbintrayKey={bintrayApi} -PdryRun=false
- * 3、gradlew clean build bintrayUpload -PbintrayUser={bintrayUser} -PbintrayKey={bintrayApi} -PdryRun=false -x releaseAndroidJavadocs
- */
-publish {
-    userOrg = user// 用于上传的组织名称（也就是bintray用户名）
-    bintrayUser = user// 用于上传的用户名
-    bintrayKey = apiKey// 用户账户的bintray API密钥
-    dryRun = unpublished// 若设置为“true”，则运行所有内容，但不会将包上传到bintray。设为“false”，则正常上传。
-    repoName = projectBintrayRepo// 代码仓库名称（默认设置为“maven”）
-    groupId = projectGroupId// 用于上传的group id（就是library module的package）
-    artifactId = projectArtifactId// bintray创建的package
-    publishVersion = projectVersionName// 版本号（不能以“-SNAPSHOT”结尾）
-    desc = projectDesc// 在bintray中项目的简短描述
-    website = projectWebSite// 一个与该项目网址相关的URL字符串（一般为Github仓库）
 }
 
 /**
@@ -134,14 +98,3 @@ uploadArchives {
         }
     }
 }
-
-/**
- * jitpack configuration (use android-maven)
- *
- * - 1、classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
- * - 2、apply plugin: 'com.github.dcendents.android-maven'// 上传到JitPack仓库
- * - 3、定义 group
- *
- * 使用 JitPack 仓库
- */
-group = projectGroupId

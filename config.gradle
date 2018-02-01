@@ -24,10 +24,8 @@ ext {
             "appcompat-v7"            : "com.android.support:appcompat-v7:${dependVersion.support}",
             "cardview-v7"             : "com.android.support:cardview-v7:${dependVersion.support}",
             "recyclerview-v7"         : "com.android.support:recyclerview-v7:${dependVersion.support}",
+            "support-annotations"     : "com.android.support:support-annotations:${dependVersion.support}",
             "design"                  : "com.android.support:design:${dependVersion.support}",
-            "gson"                    : "com.google.code.gson:gson:${dependVersion.gson}",
-            "logger"                  : "com.orhanobut:logger:${dependVersion.logger}",
-            "timber"                  : "com.jakewharton.timber:timber:${dependVersion.timber}",
 
             // canary
             "blockcanary-android"     : "com.github.markzhai:blockcanary-android:${dependVersion.blockcanary}",

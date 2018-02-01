@@ -4,7 +4,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 }
 
-sourceCompatibility = "1.7"
-targetCompatibility = "1.7"
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
 
-apply from: "../bintrayJavaUpload.gradle"
+/* 不能包含中文注释，否则报“编码GBK的不可映射字符” */
+//apply from: "../bintrayJavaUpload.gradle"
