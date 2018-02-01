@@ -2,6 +2,7 @@
  * 以下开始是将Android Library上传到JitPack仓库的相关配置（使用android-maven插件）
  *
  *  author : jeterlee
+ *  website : https://github.com/jeterlee/android-dev-note/blob/master/document/chapter7/or-project-publish.md
  */
 
 apply plugin: 'com.github.dcendents.android-maven'// 上传到JitPack仓库

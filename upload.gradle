@@ -5,6 +5,7 @@
  * 3、自定义的Maven仓库相关配置（use github mavenRepository）
  *
  * author : jeterlee
+ * website : https://github.com/jeterlee/android-dev-note/blob/master/document/chapter7/or-project-publish.md
  */
 
 apply plugin: 'com.novoda.bintray-release'// 上传JCenter仓库

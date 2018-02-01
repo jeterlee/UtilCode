@@ -4,6 +4,7 @@
  * 注意：不能包含中文注释，否则报“编码GBK的不可映射字符”
  *
  * author : jeterlee
+ * website : https://github.com/jeterlee/android-dev-note/blob/master/document/chapter7/or-project-publish.md
  */
 
 apply plugin: 'com.novoda.bintray-release'

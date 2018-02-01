@@ -2,6 +2,7 @@
  * 以下开始是将Android Library上传到自定义的Maven仓库相关配置（use github mavenRepository）
  *
  * author : jeterlee
+ * website : https://github.com/jeterlee/android-dev-note/blob/master/document/chapter7/or-project-publish.md
  */
 
 apply plugin: 'maven'// 上传到自定义的Maven仓库

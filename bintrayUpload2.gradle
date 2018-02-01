@@ -1,0 +1,188 @@
+/**
+ * 以下开始是将Android Library上传到JCenter仓库的相关配置（使用jfrog和android-maven插件）
+ *
+ * author : jeterlee
+ * website : https://github.com/jeterlee/android-dev-note/blob/master/document/chapter7/or-project-publish.md
+ * http://sherlockshi.github.io/2016/09/29/15_Android/1555_Maven/%E4%BD%BF%E7%94%A8Android%20Studio%E6%8A%8A%E8%87%AA%E5%B7%B1%E7%9A%84Android%20library%E5%88%86%E5%8F%91%E5%88%B0jCenter/
+ * https://juejin.im/entry/5844c30561ff4b006c34b133
+ *
+ * #bintray
+ * bintray.user=******
+ * bintray.apikey=******
+ *
+ * #developer
+ * developer.id=******
+ * developer.name=******
+ * developer.email=******
+ *
+ * bintray.user：你的Bintray的用户名
+ * bintray.apikey：你的的Bintray的API Key,可以在Edit Profile页面的 API Key 选项卡中找到
+ * developer.id：通常是你在开源社区的昵称
+ * developer.name：你的姓名
+ * developer.email：你的邮箱
+ *
+ * #project
+ * project.name=******
+ * project.bintrayRepo=******
+ * project.groupId=******
+ * project.artifactId=******
+ * project.packaging=aar
+ * project.siteUrl=******
+ * project.gitUrl=******
+ *
+ * #javadoc
+ * javadoc.name=******
+ *
+ * project.name：项目名称
+ * project.groupId：项目组ID
+ * project.artifactId：项目ID
+ * project.packaging：包类型，Android库是aar
+ * project.siteUrl：项目官方网站的地址，没有的话就用Github上的地址
+ * project.gitUrl：项目的Git地址
+ * javadoc.name：生成的javadoc打开后主页显示的名称，通常跟项目名称一样即可
+ *
+ */
+
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+// local properties（隐私内容，此文件不会上传）
+Properties properties = new Properties()
+File localPropertiesFile = project.file("../local.properties");
+if (localPropertiesFile.exists()) {
+    properties.load(localPropertiesFile.newDataInputStream())
+}
+
+// project properties（发布版本的一些信息，每个Android Library都需要配置）
+File projectPropertiesFile = project.file("project.properties");
+if (projectPropertiesFile.exists()) {
+    properties.load(projectPropertiesFile.newDataInputStream())
+}
+
+// read properties
+def projectName = properties.getProperty("project.name")
+def projectBintrayRepo = properties.getProperty("project.bintrayRepo")
+def projectGroupId = properties.getProperty("project.groupId")
+def projectArtifactId = properties.getProperty("project.artifactId")
+def projectVersionName = android.defaultConfig.versionName
+def projectPackaging = properties.getProperty("project.packaging")
+def projectSiteUrl = properties.getProperty("project.siteUrl")
+def projectGitUrl = properties.getProperty("project.gitUrl")
+
+def developerId = properties.getProperty("developer.id")
+def developerName = properties.getProperty("developer.name")
+def developerEmail = properties.getProperty("developer.email")
+
+def bintrayUser = properties.getProperty("bintray.user")
+def bintrayApikey = properties.getProperty("bintray.apikey")
+
+def javadocName = properties.getProperty("javadoc.name")
+
+group = projectGroupId
+
+/**
+ * 以下为配置library注释在打包jar后保留
+ */
+
+// This generates sources.jar（打包源码jar，生成源文件）
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+// This generates configuration javadoc（生成javadoc文档）
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    failOnError false
+}
+
+// This is javadoc configuration（配置javadoc）
+javadoc {
+    options {
+        encoding "UTF-8"
+        charSet 'UTF-8'
+        author true
+        version projectVersionName
+        links "http://docs.oracle.com/javase/7/docs/api"
+        title javadocName
+    }
+}
+
+// This generates javadoc.jar（打包文档jar，生成文档文件）
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+// This copy javadoc（拷贝javadoc文件）
+task copyDoc(type: Copy) {
+    from "${buildDir}/docs/"
+    into "docs"
+}
+
+// 上传到JCenter所需要的源码文件
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+// This generates POM.xml with proper parameters
+install {
+    repositories.mavenInstaller {
+        pom {
+            project {
+                name projectName
+                groupId projectGroupId
+                artifactId projectArtifactId
+                version projectVersionName
+                packaging projectPackaging
+                url projectSiteUrl
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id developerId
+                        name developerName
+                        email developerEmail
+                    }
+                }
+                scm {
+                    connection projectGitUrl
+                    developerConnection projectGitUrl
+                    url projectSiteUrl
+                }
+            }
+        }.writeTo("$buildDir/poms/pom-default.xml").writeTo("pom.xml")
+    }
+}
+
+/**
+ * bintray configuration (使用jfrog和android-maven插件)
+ *
+ * - 1、 classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.6'
+ *      classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
+ * - 2、apply plugin: 'com.github.dcendents.android-maven'
+ *      apply plugin: 'com.jfrog.bintray'// 上传JCenter仓库
+ *
+ * 使用 publish 闭包来设置你的应用的信息（上传JCenter仓库）
+ *
+ * 使用命令： gradlew clean build bintrayUpload
+ */
+bintray {
+    user = bintrayUser
+    key = bintrayApikey
+    configurations = ['archives']
+    pkg {
+        repo = projectBintrayRepo
+        name = projectName
+        websiteUrl = projectSiteUrl
+        vcsUrl = projectGitUrl
+        licenses = ["Apache-2.0"]
+        publish = true
+    }
+}
