@@ -1,4 +1,4 @@
-package com.jeterlee.utilcode.common;
+package com.jeterlee.utilcode;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -21,11 +21,9 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jeterlee.utilcode.Utils;
-
 /**
  * <pre>
- *     author: Blankj
+ *     @author : Blankj
  *     blog  : http://blankj.com
  *     time  : 2016/09/29
  *     desc  : 吐司相关工具类

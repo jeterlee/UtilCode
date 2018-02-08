@@ -1,16 +1,23 @@
 ## UtilCode
-项目说明：Android & Java Common Tools Class （常用的工具类，并且`Java`和`Android`分离，方便使用，持续更新。。。）
+项目说明：Android & Java Common Tools Class （常用的工具类，并且`Java`和`Android`分离，方便使用！）
+
+### 持续更新。。。
 
 
 ## 依赖配置
 
+### 1、utilcode（Java常用的库）
+
+### 2、utilcode-android（Android常用的库）
+
+### 3、utilcode-android-common（Android常用库的字库，为了解决依赖臃肿，一些用的不是非常频繁的库）
 
 
-## 优秀项目推荐
-[**AndroidUtilCode**](https://github.com/Blankj/AndroidUtilCode)
-
-
-## 参考资料
+## Thanks
+参考项目|作者
+:-----:|:--:
+[AndroidUtilCode](https://github.com/Blankj/AndroidUtilCode)|[Blankj](https://github.com/Blankj)
+[AndroidBaseUtils](https://github.com/TheFinestArtist/AndroidBaseUtils)|[TheFinestArtist](https://github.com/TheFinestArtist)
 
 
 # License

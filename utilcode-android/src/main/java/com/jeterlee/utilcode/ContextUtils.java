@@ -45,9 +45,9 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * ContextUtils helps to manage conveniently.
+ * ContextUtils helps to manage {@link Context} conveniently.
  *
- * author Leonardo Taehwan Kim
+ * @author Leonardo Taehwan Kim
  */
 public class ContextUtils {
 

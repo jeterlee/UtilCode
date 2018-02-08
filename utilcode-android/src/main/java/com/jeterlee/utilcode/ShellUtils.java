@@ -1,4 +1,4 @@
-package com.jeterlee.utilcode.etc;
+package com.jeterlee.utilcode;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * <pre>
- *     author: Blankj
+ *     @author : Blankj
  *     blog  : http://blankj.com
  *     time  : 2016/08/07
  *     desc  : Shell 相关工具类

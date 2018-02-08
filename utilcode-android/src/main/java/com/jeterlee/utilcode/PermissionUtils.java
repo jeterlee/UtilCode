@@ -1,4 +1,4 @@
-package com.jeterlee.utilcode.common;
+package com.jeterlee.utilcode;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,7 +12,6 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
 
-import com.jeterlee.utilcode.Utils;
 import com.jeterlee.constant.PermissionConstants;
 
 import java.util.ArrayList;
@@ -24,7 +23,7 @@ import java.util.Set;
 
 /**
  * <pre>
- *     author: Blankj
+ *     @author : Blankj
  *     blog  : http://blankj.com
  *     time  : 2017/12/29
  *     desc  : 权限相关工具类

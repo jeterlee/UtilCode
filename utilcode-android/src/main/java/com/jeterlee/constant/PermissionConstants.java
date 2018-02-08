@@ -8,10 +8,9 @@ import android.support.annotation.StringDef;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-
 /**
  * <pre>
- *     author: Blankj
+ *     @author : Blankj
  *     blog  : http://blankj.com
  *     time  : 2017/12/29
  *     desc  : 权限相关常量

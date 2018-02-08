@@ -28,17 +28,15 @@ import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 
-import com.jeterlee.utilcode.common.APILevel;
-
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * ResourcesUtils helps to manage conveniently.
+ * ResourcesUtils helps to manage {@link Resources} conveniently.
  *
- * author Leonardo Taehwan Kim
+ * @author Leonardo Taehwan Kim
  */
 public class ResourcesUtils {
 
@@ -262,7 +260,7 @@ public class ResourcesUtils {
         Utils.getResources().updateConfiguration(config, metrics);
     }
 
-    // Added methods
+
     public static int[] getColorArray(@ArrayRes int array) {
         if (array == 0) {
             return null;

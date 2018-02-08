@@ -1,4 +1,4 @@
-package com.jeterlee.utilcode.common;
+package com.jeterlee.utilcode;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -9,9 +9,6 @@ import android.net.wifi.WifiManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
-import com.jeterlee.utilcode.Utils;
-import com.jeterlee.utilcode.etc.ShellUtils;
-
 import java.lang.reflect.Method;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -21,7 +18,7 @@ import java.util.Enumeration;
 
 /**
  * <pre>
- *     author: Blankj
+ *     @author : Blankj
  *     blog  : http://blankj.com
  *     time  : 2016/08/02
  *     desc  : 网络相关工具类

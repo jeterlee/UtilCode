@@ -1,12 +1,9 @@
 /**
- * 以下开始是将Java Library上传到JCenter仓库的相关配置（使用novoda插件）
- *
- * 注意：不能包含中文注释，否则报“编码GBK的不可映射字符”
+ * 以下开始是将Android Library上传到JCenter仓库的相关配置（使用novoda插件）
  *
  * author : jeterlee
  * website : https://github.com/jeterlee/android-dev-note/blob/master/document/chapter7/or-project-publish.md
- * desc : 1、注意在project的build中编码配置，否则会“编码GBK不可映射字符”
- * 2、在project.properties中增加‘project.versionName’
+ * desc : 注意在project的build中编码配置，否则会“编码GBK不可映射字符”
  */
 
 apply plugin: 'com.novoda.bintray-release'
@@ -32,27 +29,86 @@ def unpublished = properties.getProperty("bintray.unpublished")
 def projectBintrayRepo = properties.getProperty("project.bintrayRepo")
 def projectGroupId = properties.getProperty("project.groupId")
 def projectArtifactId = properties.getProperty("project.artifactId")
-def projectVersionName = properties.getProperty("project.versionName")
+def projectVersionName = android.defaultConfig.versionName
 def projectDesc = properties.getProperty("project.desc")
 def projectWebSite = properties.getProperty("project.webSite")
 
 def javadocName = properties.getProperty("javadoc.name")
 
 /**
- * 以下为配置Java library注释在打包jar后保留
+ * 以下为配置library注释在打包jar后保留（处理了依赖Android官方库javadoc）
  */
 
-// This generates sources.jar（打包源码jar，生成源文件）
-task sourcesJar(type: Jar, dependsOn: classes) {
-    from sourceSets.main.allSource
-    classifier = 'sources'
-}
+if (project.hasProperty("android")) {
+    /**
+     * Android libraries
+     */
 
-// This generates configuration javadoc（生成javadoc文档）
-task javadoc(type: Javadoc) {
-    source = sourceSets.main.allSource
-    classpath += project.files(getBootClasspath().join(File.pathSeparator))
-    failOnError false
+    // This generates sources.jar（打包源码jar，生成源文件）
+    task sourcesJar(type: Jar) {
+        from android.sourceSets.main.java.srcDirs
+        classifier = 'sources'
+    }
+
+    // 处理Android官方库注释（特殊处理）
+    android.libraryVariants.all { variant ->
+        println variant.javaCompile.classpath.files
+        if (variant.name == 'release') {
+            // 只需release的javadoc
+            task("generate${variant.name.capitalize()}Javadoc", type: Javadoc) {
+                // title = ''
+                // description = ''
+                source = variant.javaCompile.source
+                classpath = files(variant.javaCompile.classpath.files, project.android.getBootClasspath())
+                options {
+                    encoding "utf-8"
+                    links "http://docs.oracle.com/javase/7/docs/api/"
+                    linksOffline "http://d.android.com/reference", "${android.sdkDirectory}/docs/reference"
+                }
+                exclude '**/BuildConfig.java'
+                exclude '**/R.java'
+            }
+            // This generates configuration javadoc（生成javadoc文档）
+            task("javadoc${variant.name.capitalize()}Jar", type: Jar,
+                    dependsOn: "generate${variant.name.capitalize()}Javadoc") {
+                classifier = 'javadoc'
+                from tasks.getByName("generate${variant.name.capitalize()}Javadoc").destinationDir
+            }
+//            // This generates configuration javadoc（生成javadoc文档）
+//            task javadoc(type: Javadoc) {
+//                source = android.sourceSets.main.java.srcDirs
+//                classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+//                failOnError false
+//            }
+            // 上传到JCenter所需要的源码文件
+            artifacts {
+                archives tasks.getByName("javadoc${variant.name.capitalize()}Jar")
+                archives sourcesJar
+            }
+        }
+    }
+} else {
+    /**
+     * Java libraries
+     */
+
+    // This generates sources.jar（打包源码jar，生成源文件）
+    task sourcesJar(type: Jar, dependsOn: classes) {
+        classifier = 'sources'
+        from sourceSets.main.allSource
+    }
+
+    // This generates javadoc.jar（打包文档jar，生成文档文件）
+    task javadocJar(type: Jar, dependsOn: javadoc) {
+        classifier = 'javadoc'
+        from javadoc.destinationDir
+    }
+
+    // 上传到JCenter所需要的源码文件
+    artifacts {
+        archives javadocJar
+        archives sourcesJar
+    }
 }
 
 // This is javadoc configuration（配置javadoc）
@@ -67,22 +123,10 @@ javadoc {
     }
 }
 
-// This generates javadoc.jar（打包文档jar，生成文档文件）
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-
 // This copy javadoc（拷贝javadoc文件）
 task copyDoc(type: Copy) {
     from "${buildDir}/docs/"
     into "docs"
-}
-
-// 上传到JCenter所需要的源码文件
-artifacts {
-    archives javadocJar
-    archives sourcesJar
 }
 
 /**

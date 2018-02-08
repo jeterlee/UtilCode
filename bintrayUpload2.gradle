@@ -5,6 +5,7 @@
  * website : https://github.com/jeterlee/android-dev-note/blob/master/document/chapter7/or-project-publish.md
  * http://sherlockshi.github.io/2016/09/29/15_Android/1555_Maven/%E4%BD%BF%E7%94%A8Android%20Studio%E6%8A%8A%E8%87%AA%E5%B7%B1%E7%9A%84Android%20library%E5%88%86%E5%8F%91%E5%88%B0jCenter/
  * https://juejin.im/entry/5844c30561ff4b006c34b133
+ * desc : 注意在project的build中编码配置，否则会“编码GBK不可映射字符”
  *
  * #bintray
  * bintray.user=******

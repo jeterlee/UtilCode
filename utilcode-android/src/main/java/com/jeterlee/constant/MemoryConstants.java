@@ -7,7 +7,7 @@ import java.lang.annotation.RetentionPolicy;
 
 /**
  * <pre>
- *     author: Blankj
+ *     @author : Blankj
  *     blog  : http://blankj.com
  *     time  : 2017/03/13
  *     desc  : 存储相关常量

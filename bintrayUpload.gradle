@@ -3,6 +3,7 @@
  *
  * author : jeterlee
  * website : https://github.com/jeterlee/android-dev-note/blob/master/document/chapter7/or-project-publish.md
+ * desc : 注意在project的build中编码配置，否则会“编码GBK不可映射字符”
  */
 
 apply plugin: 'com.novoda.bintray-release'
@@ -35,7 +36,7 @@ def projectWebSite = properties.getProperty("project.webSite")
 def javadocName = properties.getProperty("javadoc.name")
 
 /**
- * 以下为配置library注释在打包jar后保留
+ * 以下为配置Android library注释在打包jar后保留
  */
 
 // This generates sources.jar（打包源码jar，生成源文件）

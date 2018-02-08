@@ -1,4 +1,4 @@
-package com.jeterlee.utilcode.common;
+package com.jeterlee.utilcode;
 
 import android.os.Build;
 

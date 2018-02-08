@@ -1,13 +1,3 @@
-/*Blankj/AndroidUtilCode is licensed under the
-
-            Apache License 2.0
-
-    A permissive license whose main conditions
- require preservation of copyright and license notices.
- Contributors provide an express grant of patent rights.
- Licensed works, modifications, and larger works may be
- distributed under different terms and without source code.*/
-
 package com.jeterlee.utilcode;
 
 import android.annotation.SuppressLint;
@@ -23,28 +13,23 @@ import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
-import com.jeterlee.utilcode.common.PermissionUtils;
-
 import java.lang.ref.WeakReference;
 import java.util.LinkedList;
 import java.util.List;
 
 /**
+ * Title: Utils 初始化相关
+ * <p>
  * <pre>
- *     author: Blankj
- *     blog  : http://blankj.com
- *     time  : 16/12/08
- *     desc  : Utils 初始化相关
- * </pre><pre>
- *     author: Leonardo Taehwan Kim
+ *    Utils helps to get {@link Context}, {@link Resources},
+ * {@link AssetManager}, {@link Configuration} and
+ * {@link DisplayMetrics} in any class.
  *
- *     Utils helps to get in any class.
- * </pre><pre>
- *     desc: 更新完善 Utils 初始化相关
- *     email: xqlee120@yeah.net
- *     date: 2018/1/31 0031
- *     author jeterlee
+ *    Thanks to Leonardo Taehwan Kim and Blankj (http://blankj.com).
  * </pre>
+ *
+ * @author jeterlee
+ * @date 2018/1/31 0031
  */
 public final class Utils {
 
